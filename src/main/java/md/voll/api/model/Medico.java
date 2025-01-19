@@ -2,21 +2,18 @@ package md.voll.api.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import md.voll.api.DTO.EnderecoDTO;
+import lombok.NoArgsConstructor;
+import md.voll.api.DTO.MedicoDTO;
+import md.voll.api.enums.Especialidade;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Medico {
-    public enum Especialidade {
-        Ortopedia,
-        Cardiologia,
-        Ginecologia,
-        Dermatologia
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String nome;
 
@@ -26,10 +23,21 @@ public class Medico {
 
     private String crm;
 
-    private md.voll.api.DTO.MedicoDTO.Especialidade especialidade;
+    @Enumerated(EnumType.STRING)
+    private Especialidade especialidade;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", referencedColumnName = "id")
     private Endereco endereco;
+
+    public Medico(MedicoDTO medicoDTO){
+        this.id = null;
+        this.nome = medicoDTO.getNome();
+        this.email = medicoDTO.getEmail();
+        this.telefone = medicoDTO.getTelefone();
+        this.crm = medicoDTO.getCrm();
+        this.especialidade = medicoDTO.getEspecialidade();
+        this.endereco = new Endereco(medicoDTO.getEndereco());
+    }
 
 }

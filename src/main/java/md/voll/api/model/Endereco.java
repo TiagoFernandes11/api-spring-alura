@@ -5,14 +5,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import md.voll.api.DTO.EnderecoDTO;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String logradouro;
 
@@ -27,4 +30,15 @@ public class Endereco {
     private String uf;
 
     private String cep;
+
+    public Endereco(EnderecoDTO enderecoDTO){
+        this.id = null;
+        this.logradouro = enderecoDTO.getLogradouro();
+        this.numero = enderecoDTO.getNumero();
+        this.complemento = enderecoDTO.getComplemento();
+        this.bairro = enderecoDTO.getBairro();
+        this.cidade = enderecoDTO.getCidade();
+        this.uf = enderecoDTO.getUf();
+        this.cep = enderecoDTO.getCep();
+    }
 }
