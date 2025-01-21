@@ -1,6 +1,7 @@
 package md.voll.api.controller;
 
 import jakarta.validation.Valid;
+import md.voll.api.DTO.DadosListagemMedicosDTO;
 import md.voll.api.DTO.MedicoDTO;
 import md.voll.api.DTO.ResponseDTO;
 import md.voll.api.service.MedicoService;
@@ -8,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/medicos", produces = "application/json")
@@ -27,5 +27,10 @@ public class MedicoController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(400, "Bad request: Esse crm ja esta cadastrado"));
         }
+    }
+
+    @GetMapping
+    public List<DadosListagemMedicosDTO> listar(){
+        return medicoService.getMedicos();
     }
 }
